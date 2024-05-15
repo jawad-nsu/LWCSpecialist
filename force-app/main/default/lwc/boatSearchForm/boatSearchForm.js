@@ -31,7 +31,7 @@ export default class BoatSearchForm extends LightningElement {
     }
     
     // Fires event that the search option has changed.
-    // passes boatTypeId (value of this.selectedBoatTypeId) in the detail
+    // passes boatTypeId, minPrice, maxPrice in the detail
     handleSearchOptionChange(event) {
       this.selectedBoatTypeId = event.detail.value
       
@@ -40,8 +40,8 @@ export default class BoatSearchForm extends LightningElement {
             boatTypeId: this.selectedBoatTypeId,
             minPrice: this.minPrice,
             maxPrice: this.maxPrice
-        }});
-        this.dispatchEvent(searchEvent);
+      }});
+      this.dispatchEvent(searchEvent);
     }
 
     handleMinPriceChange(event){
@@ -68,16 +68,5 @@ export default class BoatSearchForm extends LightningElement {
           this.dispatchEvent(searchEvent);
     }
 
-    handleSearch(event) {
-        event.preventDefault(); // Prevents default form submission
-        const searchEvent = new CustomEvent('search', {
-            detail: {
-                boatTypeId: this.selectedBoatTypeId,
-                minPrice: this.minPrice,
-                maxPrice: this.maxPrice
-            }
-        });
-        this.dispatchEvent(searchEvent);
-    }
   }
   
