@@ -1,18 +1,11 @@
-# Salesforce DX Project: Next Steps
-
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
-
-## How Do You Plan to Deploy Your Changes?
-
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
-
-## Configure Your Salesforce DX Project
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+- Challenge 4:  Get BoatDataService class ready for action
+    -   Error:
+        -   Invalid type: BoatType (3:34)
+        -   Invalid type: Schema.BoatType (4:16)
+       -   Solution: Append BoatType with BoatType__c. [https://trailhead.salesforce.com/trailblazer-community/feed/0D54V00007T4SxDSAV](https://trailhead.salesforce.com/trailblazer-community/feed/0D54V00007T4SxDSAV)
+	        -   __c is used **to denote the custom fields and custom objects** in salesforce org, whereas __r is used to refer the parent object fields in their child object.
+- Challenge 12: boatAddReviewForm component
+	- Error:
+		- Challenge Not yet complete... here's what's wrong: We can't find the handleSuccess function implemented correctly. Make sure the success toast is being dispatched with the correct attributes, the custom event 'createreview' is dispatched correctly, and the handleReset() function is being called in the boatAddReviewForm component, with the proper case-sensitivity and quotation
+    
+	-   Solution: create separate const variable and assign it toast notification message
