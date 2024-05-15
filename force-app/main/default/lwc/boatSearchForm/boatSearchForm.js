@@ -3,6 +3,8 @@ import getBoatTypes from '@salesforce/apex/BoatDataService.getBoatTypes';
 
 export default class BoatSearchForm extends LightningElement {
     selectedBoatTypeId = '';
+    minPrice = 0; 
+    maxPrice = 1000000; 
     
     // Private
     error = undefined;
@@ -10,6 +12,9 @@ export default class BoatSearchForm extends LightningElement {
     // Observing changes to the properties of object
     @track
     searchOptions;
+
+
+    
     
     // Wire a custom Apex method
     @wire(getBoatTypes)
@@ -32,10 +37,47 @@ export default class BoatSearchForm extends LightningElement {
       
       const searchEvent = new CustomEvent('search', { 
         detail: {
-            boatTypeId: this.selectedBoatTypeId
-      }});
+            boatTypeId: this.selectedBoatTypeId,
+            minPrice: this.minPrice,
+            maxPrice: this.maxPrice
+        }});
+        this.dispatchEvent(searchEvent);
+    }
 
-      this.dispatchEvent(searchEvent);
+    handleMinPriceChange(event){
+        this.minPrice = event.detail.value
+
+        const searchEvent = new CustomEvent('search', { 
+            detail: {
+                boatTypeId: this.selectedBoatTypeId,
+                minPrice: this.minPrice,
+                maxPrice: this.maxPrice
+        }});
+        this.dispatchEvent(searchEvent);
+    }
+
+    handleMaxPriceChange(event){
+        this.maxPrice = event.detail.value
+
+        const searchEvent = new CustomEvent('search', { 
+            detail: {
+                boatTypeId: this.selectedBoatTypeId,
+                minPrice: this.minPrice,
+                maxPrice: this.maxPrice
+          }});
+          this.dispatchEvent(searchEvent);
+    }
+
+    handleSearch(event) {
+        event.preventDefault(); // Prevents default form submission
+        const searchEvent = new CustomEvent('search', {
+            detail: {
+                boatTypeId: this.selectedBoatTypeId,
+                minPrice: this.minPrice,
+                maxPrice: this.maxPrice
+            }
+        });
+        this.dispatchEvent(searchEvent);
     }
   }
   

@@ -20,6 +20,31 @@ public with sharing class BoatDataService {
     }
 
     @AuraEnabled(cacheable=true)
+    public static List<Boat__c> getBoatsWithPrice(String boatTypeId, Decimal minPrice, Decimal maxPrice) {
+        // If boatTypeId is provided, filter the boats by the boatTypeId
+        String query = 'SELECT Name, Description__c, Picture__c, Price__c, Geolocation__Latitude__s, Geolocation__Longitude__s, BoatType__c, BoatType__r.Name, Contact__r.Name, Length__c FROM Boat__c';
+    
+        // Building WHERE clause based on provided parameters
+        List<String> conditions = new List<String>();
+        if (String.isNotBlank(boatTypeId)) {
+            conditions.add('BoatType__c = :boatTypeId');
+        }
+        if (minPrice != null) {
+            conditions.add('Price__c >= :minPrice');
+        }
+        if (maxPrice != null) {
+            conditions.add('Price__c <= :maxPrice');
+        }
+        
+        // Adding WHERE clause to the query
+        if (!conditions.isEmpty()) {
+            query += ' WHERE ' + String.join(conditions, ' AND ');
+        }
+    
+        return Database.query(query);
+    }
+
+    @AuraEnabled(cacheable=true)
     public static List<Boat__c> getSimilarBoats(Id boatId, String similarBy) {
         List<Boat__c> similarBoats = new List<Boat__c>();
         List<Boat__c> parentBoat = [

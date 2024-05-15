@@ -1,8 +1,22 @@
 <template>
-    <lightning-layout>
-      <lightning-layout-item class="slds-align-middle">
-        <lightning-combobox class="slds-align-middle" value={selectedBoatTypeId} options={searchOptions} onchange={handleSearchOptionChange}></lightning-combobox>
-      </lightning-layout-item>
-    </lightning-layout>
-  </template>
-  
+  <lightning-card title="Filter Boats by Price" icon-name="custom:custom14">
+      <div class="slds-m-around_medium">
+          <form onsubmit={handleSearch}>
+              <div class="slds-grid slds-gutters">
+                  <div class="slds-col">
+                      <lightning-combobox label="Select Boat Type" value={selectedBoatTypeId} options={searchOptions} onchange={handleSearchOptionChange}></lightning-combobox>
+                  </div>
+                  <div class="slds-col">
+                      <lightning-input type="number" label="Min Price" value={minPrice} onchange={handleMinPriceChange}></lightning-input>
+                  </div>
+                  <div class="slds-col">
+                      <lightning-input type="number" label="Max Price" value={maxPrice} onchange={handleMaxPriceChange}></lightning-input>
+                  </div>
+                  <div class="slds-col">
+                      <lightning-button type="submit" label="Search" variant="brand"></lightning-button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </lightning-card>
+</template>

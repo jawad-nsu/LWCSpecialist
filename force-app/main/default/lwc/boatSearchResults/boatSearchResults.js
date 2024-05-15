@@ -3,7 +3,7 @@ import { publish, MessageContext } from 'lightning/messageService';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 
-import getBoats from '@salesforce/apex/BoatDataService.getBoats';
+import getBoatsWithPrice from '@salesforce/apex/BoatDataService.getBoatsWithPrice';
 import updateBoatList from '@salesforce/apex/BoatDataService.updateBoatList';
 import BOATMC from '@salesforce/messageChannel/BoatMessageChannel__c';
 
@@ -24,6 +24,8 @@ export default class BoatSearchResults extends LightningElement {
         { label: 'Description', fieldName: 'Description__c'},        
     ];
     boatTypeId = '';
+    minPrice = 0;
+    maxPrice = 1000000;
     
     @track
     boats;
@@ -38,7 +40,7 @@ export default class BoatSearchResults extends LightningElement {
     messageContext;
 
     // wired getBoats method
-    @wire(getBoats, {boatTypeId: '$boatTypeId'})
+    @wire(getBoatsWithPrice, {boatTypeId: '$boatTypeId', minPrice: '$minPrice', maxPrice: '$maxPrice'})
     wiredBoats({data, error}) {
         if (data) {
             this.boats = data;
@@ -51,10 +53,12 @@ export default class BoatSearchResults extends LightningElement {
     // public function that updates the existing boatTypeId property
     // uses notifyLoading
     @api
-    searchBoats(boatTypeId) {
+    searchBoats(boatTypeId, minPrice, maxPrice) {
         this.isLoading = true;
         this.notifyLoading(this.isLoading);
         this.boatTypeId = boatTypeId;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
     }
   
     // this public function must refresh the boats asynchronously
