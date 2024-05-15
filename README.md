@@ -1,3 +1,5 @@
+### Some of the Challenges faced while completing the SuperBadge and their solution
+
 - Challenge 4:  Get BoatDataService class ready for action
     -   Error:
         -   Invalid type: BoatType (3:34)
