@@ -11,7 +11,7 @@ public with sharing class BoatDataService {
 
     @AuraEnabled(cacheable=true)
     public static List<Boat__c> getBoats(String boatTypeId) {
-        String query = 'SELECT Name, Description__c, Picture__c, Price__c, Geolocation__Latitude__s, Geolocation_Longitude__s, BoatType__c, BoatType__r.Name, Contact__r.Name, Length__c FROM Boat__c';
+        String query = 'SELECT Name, Description__c, Picture__c, Price__c, Geolocation__Latitude__s, Geolocation__Longitude__s, BoatType__c, BoatType__r.Name, Contact__r.Name, Length__c FROM Boat__c';
         // If boatTypeId is provided, filter the boats by the boatTypeId
         if (String.isNotBlank(boatTypeId)) {
             query += ' WHERE BoatType__c = :boatTypeId';
