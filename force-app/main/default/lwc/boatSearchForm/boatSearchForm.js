@@ -1,6 +1,16 @@
 import { LightningElement, track, wire } from "lwc"
 import getBoatTypes from '@salesforce/apex/BoatDataService.getBoatTypes';
 
+// Utility function for debounce
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
+
 export default class BoatSearchForm extends LightningElement {
     selectedBoatTypeId = '';
     minPrice = 0; 
@@ -13,9 +23,6 @@ export default class BoatSearchForm extends LightningElement {
     @track
     searchOptions;
 
-
-    
-    
     // Wire a custom Apex method
     @wire(getBoatTypes)
     boatTypes({ error, data }) {
@@ -33,40 +40,34 @@ export default class BoatSearchForm extends LightningElement {
     // Fires event that the search option has changed.
     // passes boatTypeId, minPrice, maxPrice in the detail
     handleSearchOptionChange(event) {
-      this.selectedBoatTypeId = event.detail.value
-      
-      const searchEvent = new CustomEvent('search', { 
-        detail: {
-            boatTypeId: this.selectedBoatTypeId,
-            minPrice: this.minPrice,
-            maxPrice: this.maxPrice
-      }});
-      this.dispatchEvent(searchEvent);
+        this.selectedBoatTypeId = event.detail.value;
+        this.dispatchSearchEvent();
     }
 
     handleMinPriceChange(event){
-        this.minPrice = event.detail.value
-
-        const searchEvent = new CustomEvent('search', { 
-            detail: {
-                boatTypeId: this.selectedBoatTypeId,
-                minPrice: this.minPrice,
-                maxPrice: this.maxPrice
-        }});
-        this.dispatchEvent(searchEvent);
+        this.minPrice = event.detail.value;
+        this.debouncedDispatchSearchEvent();
     }
 
     handleMaxPriceChange(event){
-        this.maxPrice = event.detail.value
+        this.maxPrice = event.detail.value;
+        this.debouncedDispatchSearchEvent();
+    }
 
+
+    // Dispatch search event
+    dispatchSearchEvent() {
         const searchEvent = new CustomEvent('search', { 
             detail: {
                 boatTypeId: this.selectedBoatTypeId,
                 minPrice: this.minPrice,
                 maxPrice: this.maxPrice
-          }});
-          this.dispatchEvent(searchEvent);
+            }
+        });
+        this.dispatchEvent(searchEvent);
     }
+
+    debouncedDispatchSearchEvent = debounce(this.dispatchSearchEvent, 1000);
 
   }
   
